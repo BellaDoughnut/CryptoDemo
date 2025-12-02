@@ -95,10 +95,6 @@
 
     //Test alert
     //alert("p="+p+",q="+q+",N="+N+",N2="+N2+",g="+g+",lambda="+lambda+",u="+u+",mu="+mu+",L_u="+L_u)
-    //89006-2^16-2^14-2^12-2^11-2^9-2^8-2^7-2^5-2^3-2^2-2^1
-    
-    //const c = 22249427947n * 1993727118n;
-    //alert(paillierDecrypt(c)+","+N);
 
     function CalcCiphertext(choice) {
       if(choice<0){
@@ -106,11 +102,9 @@
       }
       const r = BigInt(Math.floor(2 + Math.random() * (Number(N)-2)));
       const m = modPow(choice,1n,N);
-      //alert(m);
       const gm = modPow(g, m, N2);
       const rN = modPow(r, N, N2);
       return (gm * rN) % N2;
-
     }
 
     function paillierDecrypt(c) {
@@ -118,9 +112,6 @@
       const u2 = modPow(c, lambda, N2);
       // m = L(u) * μ mod n
       const lu = L(u2);
-      alert(lu);
-      //const mu2 = modInv(lu, N);
-      //alert(mu2);
       return (lu * mu) % N;
     }
 
@@ -135,7 +126,7 @@
       document.getElementById('choice-container').style.display = 'none';
       const msg = document.getElementById('message');
       msg.innerHTML =
-        "Thank you for the vote.<br/> here's your vote ciphertext:<br/><br/>"+
+        "Thank you for the vote.<br/> Here's your vote ciphertext:<br/><br/>"+
         "<input type='text' size='50' value="+ ciphertext +"></input>"+
         "<br/><br/>Please paste the ciphertext in the following form to cast your vote";
 
@@ -143,7 +134,7 @@
       generateQR();
     }
 
-    // Simple QR generator using QRCode library if added later
+    // Show the QR code
     function generateQR() {
       const img = document.getElementById("qr");
       img.src = "url.png";

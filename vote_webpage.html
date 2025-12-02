@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vote Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: rgba(255,255,255,0.6);
+      background-blend-mode: lighten;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+      white-space: pre-line;
+      font-size: 2rem;
+    }
+
+    #choice-container {
+      display: flex;
+      flex: 1;
+    }
+
+    .choice {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 2px solid transparent;
+    }
+
+    .choice img {
+      max-width: 90%;
+      max-height: 90%;
+      transition: 0.3s;
+    }
+
+    .choice:hover img {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    #result {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      font-size: 1.2rem;
+    }
+
+    #qr {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>WHICH ONE</br>IS UGLIER?</h1>
+
+  <div id="choice-container">
+    <div class="choice" id="select1" onclick="submitVote(1)">
+      <img id="img1" src="alice-pick.avif" alt="Option 1" />
+    </div>
+    <div class="choice" id="select2" onclick="submitVote(-1)">
+      <img id="img-1" src="Ioannis-choice.webp" alt="Option 2" />
+    </div>
+  </div>
+
+  <div id="result">
+    <p id="message"></p>
+    <img id="qr"></img>
+  </div>
+
+  <script>
+    function CalcCiphertext(choice) {
+      // TODO: implement
+      return "ciphertext_for_" + choice;
+    }
+
+    function submitVote(choice) {
+      const ciphertext = CalcCiphertext(choice);
+
+      var body = document.getElementsByTagName('body')[0];
+      body.style.backgroundImage = "url("+document.getElementById('img'+choice).src+")";
+      body.style.backgroundSize = "100% auto";
+
+
+      document.getElementById('choice-container').style.display = 'none';
+      const msg = document.getElementById('message');
+      msg.innerHTML =
+        "Thank you for the vote.<br/> here's your vote ciphertext:<br/><br/>"+
+        "<input type='text' size='50' value="+ ciphertext +"></input>"+
+        "<br/><br/>Please paste the ciphertext in the following form to cast your vote";
+
+      document.getElementById('result').style.display = 'flex';
+
+      generateQR();
+    }
+
+    // Simple QR generator using QRCode library if added later
+    function generateQR() {
+      const img = document.getElementById("qr");
+      img.src = "url.png";
+      img.alt = "QR Code";
+      img.width = "200"
+      img.style.marginTop = "20px";
+
+      // Append directly into the choice-container
+      //const container = document.getElementById("choice-container");
+      //alert(container)
+
+      //container.appendChild(img);
+    }
+  </script>
+</body>
+</html>

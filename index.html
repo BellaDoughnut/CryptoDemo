@@ -82,6 +82,7 @@
     <img id="qr"></img>
   </div>
 
+  <script>
     //Parameters for Pallier
     const p = 383n, q = 467n;
     const N  = p*q; //178861
@@ -102,9 +103,11 @@
       }
       const r = BigInt(Math.floor(2 + Math.random() * (Number(N)-2)));
       const m = modPow(choice,1n,N);
+      //alert(m);
       const gm = modPow(g, m, N2);
       const rN = modPow(r, N, N2);
       return (gm * rN) % N2;
+
     }
 
     function paillierDecrypt(c) {
@@ -126,7 +129,7 @@
       document.getElementById('choice-container').style.display = 'none';
       const msg = document.getElementById('message');
       msg.innerHTML =
-        "Thank you for the vote.<br/> Here's your vote ciphertext:<br/><br/>"+
+        "Thank you for the vote.<br/> here's your vote ciphertext:<br/><br/>"+
         "<input type='text' size='50' value="+ ciphertext +"></input>"+
         "<br/><br/>Please paste the ciphertext in the following form to cast your vote";
 

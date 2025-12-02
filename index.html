@@ -83,9 +83,16 @@
   </div>
 
   <script>
+    var p = 383, q = 467, N=178661,
+      N2 = 31991257321,
+    g = N+1, lambda = 89006, u=15919702167, mu = 131249;
+    alert(p+","+q+","+N+","+N2+","+g+","+lambda+","+u+","+mu)
+    //88826-2^16-2^14-2^12-2^11-2^9-2^7-2^6-2^5-2^4-2^3-2^1
+      //
     function CalcCiphertext(choice) {
       // TODO: implement
       return "ciphertext_for_" + choice;
+      
     }
 
     function submitVote(choice) {

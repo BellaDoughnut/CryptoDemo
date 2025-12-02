@@ -82,21 +82,50 @@
     <img id="qr"></img>
   </div>
 
-  <script>
-    var p = 383, q = 467, N=178661,
-      N2 = 31991257321,
-    g = N+1, lambda = 89006, u=15919702167, mu = 131249;
-    alert(p+","+q+","+N+","+N2+","+g+","+lambda+","+u+","+mu)
-    //88826-2^16-2^14-2^12-2^11-2^9-2^7-2^6-2^5-2^4-2^3-2^1
-      //
+    //Parameters for Pallier
+    const p = 383n, q = 467n;
+    const N  = p*q; //178861
+    const g = N+1n; //178862
+    const N2 = N * N; //31991257321
+    const lambda = lcm(p-1n,q-1n); //89006
+
+    const u=modPow(g,lambda,N2); //15919702167
+    const L_u = (u - 1n) / N; //89006
+    const mu = modInv(L_u,N); //131249
+
+    //Test alert
+    alert("p="+p+",q="+q+",N="+N+",N2="+N2+",g="+g+",lambda="+lambda+",u="+u+",mu="+mu+",L_u="+L_u)
+    //89006-2^16-2^14-2^12-2^11-2^9-2^8-2^7-2^5-2^3-2^2-2^1
+    
+    //const c = 22249427947n * 1993727118n;
+    //alert(paillierDecrypt(c)+","+N);
+
     function CalcCiphertext(choice) {
-      // TODO: implement
-      return "ciphertext_for_" + choice;
-      
+      if(choice<0){
+        choice = N-1n;
+      }
+      const r = BigInt(Math.floor(2 + Math.random() * (Number(N)-2)));
+      const m = modPow(choice,1n,N);
+      alert(m);
+      const gm = modPow(g, m, N2);
+      const rN = modPow(r, N, N2);
+      return (gm * rN) % N2;
+
+    }
+
+    function paillierDecrypt(c) {
+      // u = c^λ mod n^2
+      const u2 = modPow(c, lambda, N2);
+      // m = L(u) * μ mod n
+      const lu = L(u2);
+      alert(lu);
+      //const mu2 = modInv(lu, N);
+      //alert(mu2);
+      return (lu * mu) % N;
     }
 
     function submitVote(choice) {
-      const ciphertext = CalcCiphertext(choice);
+      const ciphertext = CalcCiphertext(BigInt(choice));
 
       var body = document.getElementsByTagName('body')[0];
       body.style.backgroundImage = "url("+document.getElementById('img'+choice).src+")";
@@ -111,7 +140,6 @@
         "<br/><br/>Please paste the ciphertext in the following form to cast your vote";
 
       document.getElementById('result').style.display = 'flex';
-
       generateQR();
     }
 
@@ -122,12 +150,49 @@
       img.alt = "QR Code";
       img.width = "200"
       img.style.marginTop = "20px";
+    }
 
-      // Append directly into the choice-container
-      //const container = document.getElementById("choice-container");
-      //alert(container)
+    //functions for math calculation
+    function egcd(a, b) {
+      if (b === 0n) return [1n, 0n, a];
+      const [x1, y1, g] = egcd(b, a % b);
+      return [y1, x1 - (a / b) * y1, g];
+    }
 
-      //container.appendChild(img);
+    function modInv(a, m) {
+      const [x, , g] = egcd(a % m + m, m);
+      if (g !== 1n) return null;
+      return (x % m + m) % m;
+    }
+
+    function gcd(a, b) {
+      a = a < 0n ? -a : a;
+      b = b < 0n ? -b : b;
+      while (b !== 0n) {
+        const t = a % b;
+        a = b;
+        b = t;
+      }
+      return a;
+    }
+
+    function lcm(a, b) {
+      return (a / gcd(a, b)) * b;
+    }
+
+    function modPow(base, exp, mod) {
+      base = base % mod;
+      let result = 1n;
+      while (exp > 0n) {
+        if (exp & 1n) result = (result * base) % mod;
+        base = (base * base) % mod;
+        exp >>= 1n;
+      }
+      return result;
+    }
+
+    function L(u) {
+    return (u - 1n) / N;
     }
   </script>
 </body>

@@ -89,7 +89,7 @@ def main():
     if message>0:
         print("Davos is the most polular choice.")
     elif message<0:
-        print("Arosa is the most popular choice")
+        print("Arosa is the most popular choice.")
     else: 
         print("It appears they are equally favourable. :-)")
 

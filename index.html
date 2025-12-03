@@ -41,8 +41,8 @@
     }
 
     .choice img {
-      max-width: 90%;
-      max-height: 90%;
+      max-width: 100%;
+      max-height: 100%;
       transition: 0.3s;
     }
 
@@ -66,14 +66,16 @@
   </style>
 </head>
 <body>
-  <h1>WHICH ONE</br>IS UGLIER?</h1>
+  <h1>WHICH ONE FOR</br> YOUR SKI TRIP?</h1>
+  <h2>Click on the picture to vote</h2>
+  <h2>DAVOS or AROSA?</h2>
 
   <div id="choice-container">
     <div class="choice" id="select1" onclick="submitVote(1)">
-      <img id="img1" src="alice-pick.avif" alt="Option 1" />
+      <img id="img1" src="davos2.jpg" alt="Option 1" />
     </div>
     <div class="choice" id="select2" onclick="submitVote(-1)">
-      <img id="img-1" src="Ioannis-choice.webp" alt="Option 2" />
+      <img id="img-1" src="Arosa.jpg" alt="Option 2" />
     </div>
   </div>
 
@@ -144,6 +146,7 @@
       img.alt = "QR Code";
       img.width = "200"
       img.style.marginTop = "20px";
+
     }
 
     //functions for math calculation

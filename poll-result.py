@@ -56,7 +56,7 @@ def main():
 
     n2 = n * n
     total_cipher = 1
-    print("Here's a calculation of the poll result of the ugliest socks.")
+    print("Here's a calculation of the poll result of the ski trip destination.")
     # Read ciphertext values from input.txt.
     #Interpret each line as a decimal value
     print("Loading the votes...")
@@ -87,11 +87,11 @@ def main():
     print(".")
 
     if message>0:
-        print("Alice' socks are the ugliest.")
+        print("Davos is the most polular choice.")
     elif message<0:
-        print("Ioannis' socks are the ugliest.")
+        print("Arosa is the most popular choice")
     else: 
-        print("It appears they are equally ugly. :-)")
+        print("It appears they are equally favourable. :-)")
 
 if __name__ == "__main__":
     main()

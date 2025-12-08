@@ -60,6 +60,10 @@ def main():
     # Read ciphertext values from input.txt.
     #Interpret each line as a decimal value
     print("Loading the votes...")
+    # DAVOS = 1
+    # AROSA = -1
+    # Hence if the result is negative, it means AROSA is prefered, and if positive, DAVOS.
+    # We collect all the ciphertexts in a input.txt file.
     with open("input.txt", "r") as f:
         print("- Votes Loaded.")
         print("Calculating the ciphertexts...")
@@ -89,7 +93,7 @@ def main():
     if message>0:
         print("Davos is the most polular choice.")
     elif message<0:
-        print("Arosa is the most popular choice.")
+        print("Arosa is the most popular choice")
     else: 
         print("It appears they are equally favourable. :-)")
 

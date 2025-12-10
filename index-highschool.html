@@ -63,35 +63,30 @@
     #qr {
       margin-top: 20px;
     }
+
+    #img1 {
+      height: 60%;
+      object-fit: cover;
+      object-position: 100% 0%;}
+
+    #img-1 {
+      height: 60%;
+      object-fit: cover;
+      object-position: 0% 0%;
+    }
   </style>
 </head>
 <body>
-  <h1>WHICH PRESENTATION</br> DO YOU PICK?</h1>
-  <h2>Tick at most 2 checkboxes to vote</h2>
+  <h1>WHICH ONE FOR</br> YOUR SKI TRIP?</h1>
+  <h2>Click on the picture to vote</h2>
+  <h2>DAVOS or AROSA?</h2>
 
   <div id="choice-container">
-    <div class="choice" id="group1">
-      <input type="checkbox" id="choice1" value="1">
-        <label for="choice1"> Topic 3: Compromised credential checking (C3) services </label><br>
-    </div><br>
-    <div class="choice" id="group2">
-      <input type="checkbox" id="choice2" value="2">
-        <label for="choice2"> Topic 4: Sabotaging Facial Recognition Systems </label><br>
-    </div><br>
-    <div class="choice" id="group3">
-      <input type="checkbox" id="choice3" value="3">
-        <label for="choice3"> Topic 5: Security and privacy of Location Tracking Accessories </label><br>
-    </div> <br>
-    <div class="choice" id="group4">
-      <input type="checkbox" id="choice4" value="4">
-        <label for="choice4"> Topic 6: TOR (The Onion Router) </label><br>
-    </div> <br>
-    <div class="choice" id="group5">
-      <input type="checkbox" id="choice5" value="5">
-        <label for="choice5"> Topic 10: Quantum Key Exchange </label><br>
-    </div> <br>
-    <div class="vote" id="vote">
-      <input type="button" id="voteit" onclick="submitVote()">
+    <div class="choice" id="select1" onclick="submitVote(1)">
+      <img id="img1" src="davos2.jpg" alt="Option 1" />
+    </div>
+    <div class="choice" id="select2" onclick="submitVote(-1)">
+      <img id="img-1" src="Arosa.jpg" alt="Option 2" />
     </div>
   </div>
 
@@ -102,29 +97,30 @@
 
   <script>
     //Parameters for Pallier
-    //const p = 383n, q = 467n; //highschool demo 10/12/2025
-    //11/12/2025 master's demo
-    const p = 110879n, q = 110459n;
-    const N  = p*q; //N=11483479933
-    const g = N+1n; //g=11483479934
-    const N2 = N * N; //N2=131870311371613684489
-    const lambda = lcm(p-1n,q-1n); //lambda=956938800
-
+    const p = 383n, q = 467n;
+    const N  = p*q; //178861
+    const g = N+1n; //178862
+    const N2 = N * N; //31991257321
+    const lambda = lcm(p-1n,q-1n); //89006
 
     const u=modPow(g,lambda,N2); //15919702167
     const L_u = (u - 1n) / N; //89006
     const mu = modInv(L_u,N); //131249
 
-    //Test
-    console.log("p="+p+",q="+q+",N="+N+",N2="+N2+",g="+g+",lambda="+lambda+",u="+u+",mu="+mu+",L_u="+L_u)
+    //Test alert
+    //alert("p="+p+",q="+q+",N="+N+",N2="+N2+",g="+g+",lambda="+lambda+",u="+u+",mu="+mu+",L_u="+L_u)
 
     function CalcCiphertext(choice) {
+      if(choice<0){
+        choice = N-1n;
+      }
       const r = BigInt(Math.floor(2 + Math.random() * (Number(N)-2)));
       const m = modPow(choice,1n,N);
       //alert(m);
       const gm = modPow(g, m, N2);
       const rN = modPow(r, N, N2);
       return (gm * rN) % N2;
+
     }
 
     function paillierDecrypt(c) {
@@ -134,45 +130,24 @@
       const lu = L(u2);
       return (lu * mu) % N;
     }
-    //
-    function submitVote() {
-      const boxes = document.querySelectorAll(".choice");
-      var choice = 0n;
 
-      // Count how many are checked
-      var checkedCount = 0;
-      for (let i=1;i<6;i++){
-        const box = document.getElementById("choice"+i);
-        if (box.checked) {
-            checkedCount++;
-            exp = 2n * BigInt(box.value -1);
-            choice = choice + 10n ** exp;
-        }
-      }
-      //alert(choice);
+    function submitVote(choice) {
+      const ciphertext = CalcCiphertext(BigInt(choice));
 
-      // If more than 2 checked → do something
-      if (checkedCount > 2) {
-          alert("More than 2 choices checked!");
-      } else{
-          const ciphertext = CalcCiphertext(BigInt(choice));
-
-          //var body = document.getElementsByTagName('body')[0];
-          //body.style.backgroundImage = "url("+document.getElementById('img'+choice).src+")";
-          //body.style.backgroundSize = "100% auto";
+      var body = document.getElementsByTagName('body')[0];
+      body.style.backgroundImage = "url("+document.getElementById('img'+choice).src+")";
+      body.style.backgroundSize = "100% auto";
 
 
-          document.getElementById('choice-container').style.display = 'none';
-          const msg = document.getElementById('message');
-          msg.innerHTML =
-            "Thank you for the vote.<br/> here's your vote ciphertext:<br/><br/>"+
-            "<input type='text' size='35' value="+ ciphertext +"></input>"+
-            "<br/><br/>Please paste the ciphertext in the following form to cast your vote";
+      document.getElementById('choice-container').style.display = 'none';
+      const msg = document.getElementById('message');
+      msg.innerHTML =
+        "Thank you for the vote.<br/> here's your vote ciphertext:<br/><br/>"+
+        "<input type='text' size='35' value="+ ciphertext +"></input>"+
+        "<br/><br/>Please paste the ciphertext in the following form to cast your vote";
 
-          document.getElementById('result').style.display = 'flex';
-          generateQR();
-      }
-      
+      document.getElementById('result').style.display = 'flex';
+      generateQR();
     }
 
     // Show the QR code

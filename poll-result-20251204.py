@@ -4,10 +4,10 @@
 #  Paillier Key Parameters
 # ==========================
 # Fill these in:
-n = 12247583461        # modulus
-g = 12247583462        # generator (often g = n + 1)
-lam = 6123681062       # λ = lcm(p−1, q−1)
-mu = 11929797136       # μ = (L(g^λ mod n²))^{-1} mod n
+n = 178861        # modulus
+g = 178862        # generator (often g = n + 1)
+lam = 89006       # λ = lcm(p−1, q−1)
+mu = 131249       # μ = (L(g^λ mod n²))^{-1} mod n
 
 # ==========================
 #  Helper functions
@@ -45,9 +45,6 @@ def paillier_decrypt(c, n, lam, mu):
     u = pow(c, lam, n2)
     return (L(u, n) * mu) % n
 
-def sortingFunc(e):
-    return e[1]
-
 # ==========================
 #  Main program
 # ==========================
@@ -59,7 +56,7 @@ def main():
 
     n2 = n * n
     total_cipher = 1
-    print("Here's a calculation of the poll result of the most popular group project.")
+    print("Here's a calculation of the poll result of the ski trip destination.")
     # Read ciphertext values from input.txt.
     #Interpret each line as a decimal value
     print("Loading the votes...")
@@ -86,39 +83,19 @@ def main():
     print("Decrypted message:", message)
 
     # Tidy up the look of the output of the message
-
-    g3 = message % 100
-    g4 = (message//100) % 100
-    g5 = (message//10000) % 100
-    g6 = (message//1000000) % 100
-    g10 = (message//100000000) % 100
-
-    resultlist = [
-        ("Group 3", g3),
-        ("Group 4", g4),
-        ("Group 5", g5),
-        ("Group 6", g6),
-        ("Group 10", g10),
-    ]
-
-    resultlist.sort(reverse=True, key=sortingFunc)
-
-    for item in resultlist:
-        print(item[0], "has received", item[1],"votes.")
-
-    result_group = ""
-    for i in range (1,4):
-        if resultlist[i][1] > resultlist[i+1][1]:
-            result_group = result_group + " and "+ resultlist[i][0]
-            break
-        else:
-            result_group = result_group + "," + resultlist[i][0]
-
+    if message>100000:
+        message = message - 178861
+    print("With negative value in mod", n ,", this result is equal to", message)
     print(".")
     print(".")
     print(".")
-    print("The most popular groups are", resultlist[0][0],result_group)
 
+    if message>0:
+        print("Davos is the most polular choice.")
+    elif message<0:
+        print("Arosa is the most popular choice")
+    else: 
+        print("It appears they are equally favourable. :-)")
 
 if __name__ == "__main__":
     main()

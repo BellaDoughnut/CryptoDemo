@@ -8,7 +8,9 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.9);
+      background-position:center;
+      background-image:url(MScAdvancedCybersecurity_Banner.png);
       background-blend-mode: lighten;
       background-repeat: no-repeat;
       background-attachment: fixed;
@@ -26,16 +28,20 @@
     }
 
     #choice-container {
+      background: rgba(255,255,255,0.7);
       display: flex;
-      flex: 1;
+      flex-direction: column;      
+      justify-content: center;     
+      align-items: center;         
+      height: 100vh;
     }
 
     .choice {
-      flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      margin: 10px 0;
       transition: 0.3s;
       border: 2px solid transparent;
     }
@@ -91,7 +97,7 @@
         <label for="choice5"> Topic 10: Quantum Key Exchange </label><br>
     </div> <br>
     <div class="vote" id="vote">
-      <input type="button" id="voteit" onclick="submitVote()">
+      <input type="button" id="voteit" onclick="submitVote()" value="Vote!">
     </div>
   </div>
 

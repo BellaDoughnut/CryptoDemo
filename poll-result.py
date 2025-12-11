@@ -98,7 +98,7 @@ def main():
         ("Group 4", g4),
         ("Group 5", g5),
         ("Group 6", g6),
-        ("Group 10", g10),
+        #("Group 10", g10),
     ]
 
     resultlist.sort(reverse=True, key=sortingFunc)
@@ -107,7 +107,7 @@ def main():
         print(item[0], "has received", item[1],"votes.")
 
     result_group = ""
-    for i in range (1,4):
+    for i in range (1,3):
         if resultlist[i][1] > resultlist[i+1][1]:
             result_group = result_group + " and "+ resultlist[i][0]
             break

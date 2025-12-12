@@ -78,23 +78,28 @@
   <div id="choice-container">
     <div class="choice" id="group1">
       <input type="checkbox" id="choice1" value="1">
-        <label for="choice1"> Topic 3: Compromised credential checking (C3) services </label><br>
+        <label for="choice1"> Topic 1: E-voting </label><br>
     </div><br>
     <div class="choice" id="group2">
       <input type="checkbox" id="choice2" value="2">
-        <label for="choice2"> Topic 4: Sabotaging Facial Recognition Systems </label><br>
+        <label for="choice2"> Topic 2: Perceptual Hashing </label><br>
     </div><br>
     <div class="choice" id="group3">
       <input type="checkbox" id="choice3" value="3">
-        <label for="choice3"> Topic 5: Security and privacy of Location Tracking Accessories </label><br>
+        <label for="choice3"> Topic 7: Hacking of Electric Vehicles </label><br>
     </div> <br>
     <div class="choice" id="group4">
       <input type="checkbox" id="choice4" value="4">
-        <label for="choice4"> Topic 6: TOR (The Onion Router) </label><br>
+        <label for="choice4"> Topic 8: End-to-end Messaging </label><br>
     </div> <br>
-    <div class="choice" id="group5" style="display: none;">
+    <div class="choice" id="group5">
       <input type="checkbox" id="choice5" value="5">
-        <label for="choice5"> Topic 10: Quantum Key Exchange </label><br>
+        <label for="choice5"> Topic 9: Security Risks of LLM Agents </label><br>
+    </div> <br>
+    <!--style="display: none;"-->
+    <div class="choice" id="group6" >
+      <input type="checkbox" id="choice6" value="6">
+        <label for="choice6"> Topic 10: Quantum Key Exchange </label><br>
     </div> <br>
     <div class="vote" id="vote">
       <input type="button" id="voteit" onclick="submitVote()" value="Vote!">
@@ -109,20 +114,21 @@
   <script>
     //Parameters for Pallier
     //const p = 383n, q = 467n; //highschool demo 10/12/2025
-    //11/12/2025 master's demo
-    const p = 164987n, q = 110459n;//636359n, q = 635939n;
-    const N  = p*q; //N=11483479933
-    const g = N+1n; //g=11483479934
-    const N2 = N * N; //N2=131870311371613684489
-    const lambda = lcm(p-1n,q-1n); //lambda=956938800
+    //const p = 164987n, q = 110459n; // 11/12/2025 master's demo
+    const p=1001723n,q=1001459n; // 18/12/2025 master's demo
+    const N  = p*q; //N=1003184513857
+    const g = N+1n; //g=1003184513858
+    const N2 = N * N; //N2=1006379168842505425016449
+    const lambda = lcm(p-1n,q-1n); //lambda=501591255338
 
 
-    const u=modPow(g,lambda,N2); //15919702167
-    const L_u = (u - 1n) / N; //89006
-    const mu = modInv(L_u,N); //131249
+    const u=modPow(g,lambda,N2); //503188579641173886218667
+    const L_u = (u - 1n) / N; //501591255338
+    const mu = modInv(L_u,N); //597534955445
 
     //Test
-    console.log("p="+p+",q="+q+",N="+N+",N2="+N2+",g="+g+",lambda="+lambda+",u="+u+",mu="+mu+",L_u="+L_u)
+    //console.log("p="+p+",q="+q+",N="+N+",N2="+N2+",g="+g+",lambda="+lambda+",u="+u+",mu="+mu+",L_u="+L_u)
+    //p=1001723,q=1001459,N=1003184513857,N2=1006379168842505425016449,g=1003184513858,lambda=501591255338,u=503188579641173886218667,mu=597534955445,L_u=501591255338
 
     function CalcCiphertext(choice) {
       const r = BigInt(Math.floor(2 + Math.random() * (Number(N)-2)));
@@ -147,7 +153,7 @@
 
       // Count how many are checked
       var checkedCount = 0;
-      for (let i=1;i<6;i++){
+      for (let i=1;i<7;i++){
         const box = document.getElementById("choice"+i);
         if (box.checked) {
             checkedCount++;
@@ -160,7 +166,9 @@
       // If more than 2 checked → do something
       if (checkedCount > 2) {
           alert("More than 2 choices checked!");
-      } else{
+      } else if (checkedCount < 1){
+          alert("Choose something pleeeease.");
+      } else {
           const ciphertext = CalcCiphertext(BigInt(choice));
 
           //var body = document.getElementsByTagName('body')[0];

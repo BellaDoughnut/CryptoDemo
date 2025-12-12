@@ -4,10 +4,10 @@
 #  Paillier Key Parameters
 # ==========================
 # Fill these in:
-n = 12247583461        # modulus
-g = 12247583462        # generator (often g = n + 1)
-lam = 6123681062       # λ = lcm(p−1, q−1)
-mu = 11929797136       # μ = (L(g^λ mod n²))^{-1} mod n
+n = 1003184513857        # modulus
+g = 1003184513858        # generator (often g = n + 1)
+lam = 501591255338       # λ = lcm(p−1, q−1)
+mu = 597534955445       # μ = (L(g^λ mod n²))^{-1} mod n
 
 # ==========================
 #  Helper functions

@@ -87,18 +87,20 @@ def main():
 
     # Tidy up the look of the output of the message
 
-    g3 = message % 100
-    g4 = (message//100) % 100
-    g5 = (message//10000) % 100
-    g6 = (message//1000000) % 100
-    g10 = (message//100000000) % 100
+    g1 = message % 100
+    g2 = (message//100) % 100
+    g7 = (message//10000) % 100
+    g8 = (message//1000000) % 100
+    g9 = (message//100000000) % 100
+    g10 = (message//10000000000) % 100
 
     resultlist = [
-        ("Group 3", g3),
-        ("Group 4", g4),
-        ("Group 5", g5),
-        ("Group 6", g6),
-        #("Group 10", g10),
+        ("Group 1", g1),
+        ("Group 2", g2),
+        ("Group 7", g7),
+        ("Group 8", g8),
+        ("Group 9", g9),
+        ("Group 10", g10),
     ]
 
     resultlist.sort(reverse=True, key=sortingFunc)
@@ -107,7 +109,7 @@ def main():
         print(item[0], "has received", item[1],"votes.")
 
     result_group = ""
-    for i in range (1,3):
+    for i in range (1,4):
         if resultlist[i][1] > resultlist[i+1][1]:
             result_group = result_group + " and "+ resultlist[i][0]
             break
